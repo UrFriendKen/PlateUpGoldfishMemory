@@ -31,7 +31,8 @@ namespace KitchenGoldfishMemory.Views
 
                     SendUpdate(views[i], new ViewData()
                     {
-                        MenuPhase = phase.Phase
+                        MenuPhase = phase.Phase,
+                        IsRepeatPhase = Has<CGroupHasRepeatedOrder>(indicator.Source)
                     });
                 }
             }
@@ -41,20 +42,25 @@ namespace KitchenGoldfishMemory.Views
         public class ViewData : ISpecificViewData, IViewData.ICheckForChanges<ViewData>
         {
             [Key(0)] public MenuPhase MenuPhase;
+            [Key(1)] public bool IsRepeatPhase;
 
             public IUpdatableObject GetRelevantSubview(IObjectView view) => view.GetSubView<GroupMenuPhaseView>();
 
             public bool IsChangedFrom(ViewData check)
             {
-                return MenuPhase != check.MenuPhase;
+                return MenuPhase != check.MenuPhase ||
+                    IsRepeatPhase != check.IsRepeatPhase;
             }
         }
 
-        public MenuPhase MenuPhase { get; protected set; }
+        public MenuPhase MenuPhase { get; protected set; } = MenuPhase.Main;
+
+        public bool IsRepeatPhase { get; protected set; } = false;
 
         protected override void UpdateData(ViewData data)
         {
             MenuPhase = data.MenuPhase;
+            IsRepeatPhase = data.IsRepeatPhase;
         }
     }
 }

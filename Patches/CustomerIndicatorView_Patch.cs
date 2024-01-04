@@ -24,15 +24,29 @@ namespace KitchenGoldfishMemory.Patches
         {
 
             if (view_data.IsHidden ||
-                view_data.PatienceReason != PatienceReason.Service ||
                 ___Icon == null ||
                 __instance.GetComponent<GroupMenuPhaseView>() == null)
                 return;
 
             GroupMenuPhaseView groupMealPhaseView = __instance.GetComponent<GroupMenuPhaseView>();
-            if (groupMealPhaseView != null && TryGetIcon(groupMealPhaseView.MenuPhase, out string icon))
+            if (groupMealPhaseView != null)
             {
-                ___Icon.text = icon;
+                string icon = string.Empty;
+                switch (view_data.PatienceReason)
+                {
+                    case PatienceReason.Service:
+                        if (TryGetIcon(groupMealPhaseView.MenuPhase, out string menuPhaseIcon))
+                            icon = menuPhaseIcon;
+                        break;
+                    default:
+                        icon = GameData.Main.GlobalLocalisation.GetIcon(view_data.PatienceReason);
+                        break;
+                }
+
+                if (groupMealPhaseView.IsRepeatPhase)
+                    ___Icon.text = $"<size=80%>{icon}<color=#ffffff><sup>2";
+                else
+                    ___Icon.text = icon;
             }
         }
 
