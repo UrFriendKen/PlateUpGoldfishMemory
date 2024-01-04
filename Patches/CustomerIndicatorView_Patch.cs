@@ -23,7 +23,7 @@ namespace KitchenGoldfishMemory.Patches
         static void UpdateData_Postfix(CustomerIndicatorView.ViewData view_data, ref TextMeshPro ___Icon, ref CustomerIndicatorView __instance)
         {
 
-            if (view_data.IsHidden ||
+            if (!view_data.HasPatience ||
                 ___Icon == null ||
                 __instance.GetComponent<GroupMenuPhaseView>() == null)
                 return;

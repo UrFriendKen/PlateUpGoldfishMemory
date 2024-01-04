@@ -9,7 +9,7 @@ namespace KitchenGoldfishMemory
     {
         public const string MOD_GUID = $"IcedMilo.PlateUp.{MOD_NAME}";
         public const string MOD_NAME = "Goldfish Memory";
-        public const string MOD_VERSION = "0.1.2";
+        public const string MOD_VERSION = "0.1.3";
 
         Harmony _harmony;
 
